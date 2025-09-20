@@ -10,6 +10,9 @@ import hpp from 'hpp';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 
+// Import database configuration
+import { connectDB } from './config/database.js';
+
 // Import routes
 import authRoutes from './routes/auth.js';
 import userRoutes from './routes/users.js';
@@ -132,29 +135,6 @@ app.use(notFound);
 
 // Global error handler
 app.use(errorHandler);
-
-// Database connection
-const connectDB = async () => {
-  try {
-    const mongoURI = process.env.NODE_ENV === 'test' 
-      ? process.env.MONGODB_TEST_URI 
-      : process.env.MONGODB_URI;
-
-    if (!mongoURI) {
-      throw new Error('MongoDB URI is not defined in environment variables');
-    }
-
-    const conn = await mongoose.connect(mongoURI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
-  } catch (error) {
-    console.error('Database connection error:', error.message);
-    process.exit(1);
-  }
-};
 
 // Graceful shutdown
 process.on('SIGTERM', () => {
