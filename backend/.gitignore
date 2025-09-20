@@ -102,6 +102,9 @@ build/
 # Test files
 test-results/
 coverage/
+test-*.js
+debug-*.js
+*-test.js
 
 # PM2 files
 ecosystem.config.js
